@@ -1,8 +1,9 @@
-ONLY
-A
-FILE
-FOR
-THE
-SCRIPT
-TO
-APPEND
+ONLY                          ··· no official Internet DNS name ······ no official Internet DNS name ···
+A                             ··· no official Internet DNS name ······ no official Internet DNS name ···
+FILE                          ··· no official Internet DNS name ······ no official Internet DNS name ···
+FOR                           ··· no official Internet DNS name ······ no official Internet DNS name ···
+THE                           ··· no official Internet DNS name ······ no official Internet DNS name ···
+SCRIPT                        ··· no official Internet DNS name ······ no official Internet DNS name ···
+TO                            ··· no official Internet DNS name ······ no official Internet DNS name ···
+APPEND                        ··· no official Internet DNS name ······ no official Internet DNS name ···
+
