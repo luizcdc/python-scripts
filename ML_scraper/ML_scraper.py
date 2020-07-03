@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from requests import get
 from time import sleep
 from pickle import load
+from urllib.parse import quote
 
 
 def get_link(product):
@@ -83,7 +84,7 @@ def get_search_pages(term, cat='0.0', price_min=0, price_max=2147483647, conditi
     pages = []
     while True:
         page = get(
-            f"https://{subdomain}.mercadolivre.com.br/{suffix}{term}_Desde_{index}_PriceRange_{price_min}-{price_max}{CONDITIONS[condition]}")
+            f"https://{subdomain}.mercadolivre.com.br/{suffix}{quote(term, safe='')}_Desde_{index}_PriceRange_{price_min}-{price_max}{CONDITIONS[condition]}")
         index += 50
         if page.status_code == 404:
             break
