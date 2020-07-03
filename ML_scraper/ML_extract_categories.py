@@ -24,17 +24,17 @@ cat_page = BeautifulSoup(
 master_categories = cat_page.findAll(class_="categories__container")
 
 categories = []
-for cat_container in master_categories:
+for n1, cat_container in enumerate(master_categories, 1):
     categories.append(
         [
-            cat_container.find(
-                'a', class_="categories__title").text, [
+            [n1,cat_container.find(
+                'a', class_="categories__title").text], [
                 {
-                    "number": n + 1, "name": x.text, "suffix": get_suffix(
+                    "number": n2, "name": x.text, "suffix": get_suffix(
                         x["href"]), "subdomain": get_subdomain(
-                        x["href"])} for n, x in enumerate(cat_container.find(
+                        x["href"])} for n2, x in enumerate(cat_container.find(
                             class_="categories__list").find_all(
-                            class_="categories__subtitle"))]])
+                            class_="categories__subtitle"), 1)]])
 
 with open("categories.pickle", "wb") as savefile:
     pickle.dump(categories, savefile)
