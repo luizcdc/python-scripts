@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from requests import get as get
+from requests import get
 from time import sleep
 
 
@@ -47,8 +47,8 @@ def is_reputable(link):
     return True
 
 def get__search_pages():
-
-if __name__ == __main__:
+    pass
+if __name__ == "__main__":
     search_term = "128gb"
     price_min = 1200
     price_max = 1550
