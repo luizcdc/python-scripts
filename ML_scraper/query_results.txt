@@ -1,0 +1,84 @@
+Page 1 sucess. Status: 200.
+Page 2 sucess. Status: 200.
+Page 3 sucess. Status: 200.
+Page 4 sucess. Status: 200.
+Page 5 sucess. Status: 200.
+Error 404 - Not found. Last page: 5
+link: https://produto.mercadolivre.com.br/MLB-1572597670-smartphone-asus-zenfone-shot-plus-128gb-64gb-carto-64gb-_JM
+title: Smartphone Asus Zenfone Shot Plus 128gb (64gb + Cartão 64gb)
+price: 1235.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1572591093-smartphone-asus-zenfone-shot-plus-128gb-64gb-carto-64gb-_JM
+title: Smartphone Asus Zenfone Shot Plus 128gb (64gb + Cartão 64gb)
+price: 1305.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1521606216-zenfone-max-pro-m2-black-asus-63-4g-128gb-zb631kl-4d091b-_JM
+title: Zenfone Max Pro M2 Black Asus 6,3 4g 128gb - Zb631kl-4d091b
+price: 1329.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1515159156-zenfone-max-pro-m2-black-asus-63-4g-128gb-zb631kl-4d091b-_JM
+title: Zenfone Max Pro M2 Black Asus 6,3 4g 128gb - Zb631kl-4d091b
+price: 1369.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1518385270-smartphone-asus-zenfone-shot-plus-128gb-64gb-64gb-carto-_JM
+title: Smartphone Asus Zenfone Shot Plus 128gb( 64gb+ 64gb Cartão)
+price: 1399.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1505483204-celular-motorola-g8-64gb-ram-4gb-camera-traseira-foco-a-lase-_JM
+title: Celular Motorola G8 64gb Ram 4gb Camera Traseira Foco A Lase
+price: 1470.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1505486555-celular-motorola-g8-64gb-ram-4gb-camera-traseira-foco-a-lase-_JM
+title: Celular Motorola G8 64gb Ram 4gb Camera Traseira Foco A Lase
+price: 1470.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1518388764-smartphone-asus-zenfone-shot-plus-128gb-64gb-64gb-carto-_JM
+title: Smartphone Asus Zenfone Shot Plus 128gb( 64gb+ 64gb Cartão)
+price: 1499.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1442145920-asus-zenfone-max-pro-m2-4gb-ram-128gb64gb-64gb-carto-_JM
+title: Asus Zenfone Max Pro M2 4gb Ram 128gb(64gb + 64gb Cartão)
+price: 1499.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1518380314-smartphone-asus-zenfone-shot-plus-128gb-64gb-64gb-carto-_JM
+title: Smartphone Asus Zenfone Shot Plus 128gb( 64gb+ 64gb Cartão)
+price: 1499.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1577370079-celular-xiaomi-redmi-note-8-dual-sim-128-4-gb-ram-preto-_JM
+title: Celular Xiaomi Redmi Note 8 Dual Sim 128 4 Gb Ram Preto
+price: 1545.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1577877730-xiaomi-redmi-note-8-dual-sim-128-gb-neptune-blue-4-gb-ram-_JM
+title: Xiaomi Redmi Note 8 Dual Sim 128 Gb Neptune Blue 4 Gb Ram
+price: 1545.0
+no-interest: False
+reputable: True
+
+link: https://produto.mercadolivre.com.br/MLB-1523883222-xiaomi-redmi-note-8-64gb-verso-global-4gb-ram-brindes-_JM
+title: Xiaomi Redmi Note 8 64gb Versão Global 4gb Ram +brindes
+price: 1550.0
+no-interest: False
+reputable: True
+

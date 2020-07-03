@@ -1,4 +1,5 @@
 a.txt
 aaaa.txt
-ML_scraper/query_results.txt
-query_results.txt
+ML_scraper\*.txt
+append_phrase_after_each_line\*.txt
+*\*.txt
