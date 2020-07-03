@@ -33,11 +33,16 @@ def is_no_interest(product):
 
 
 def get_all_products(pages):
-    return [
+    print(type(pages[0]))
+    products = [
         BeautifulSoup(
             page,
             "html.parser").find_all(
             class_="item__info item--hide-right-col") for page in pages]
+    print(type(products[0][0]))
+    products = [product for page in pages for product in page]
+    print(type(products[0]))
+    return products
 
 
 def is_reputable(link, min_rep=3, aggressiveness=1):
@@ -69,7 +74,6 @@ def print_cats():
 
 def get_cat(catid):
     father_num, child_num = map(int, catid.split('.'))
-    print(father_num, child_num)
     for father_cat in CATS:
         if father_cat[0][0] == father_num:
             for child in father_cat[1]:
@@ -90,13 +94,12 @@ def get_search_pages(term, cat='0.0', price_min=0, price_max=2147483647, conditi
     while True:
         page = get(
             f"https://{subdomain}.mercadolivre.com.br/{suffix}{quote(term, safe='')}_Desde_{index}_PriceRange_{price_min}-{price_max}{CONDITIONS[condition]}")
-        index += (SKIP_PAGES + 1) * 50
+        index += 50 * (SKIP_PAGES + 1)  # DEBUG
         if page.status_code == 404:
             break
         else:
             pages.append(page.text)
         sleep(0.5**aggressiveness)
-    print(len(pages))  # DEBUG
     return pages
 
 
@@ -137,9 +140,9 @@ if __name__ == "__main__":
     pages = get_search_pages(search_term, *args)
 
     products = get_all_products(pages)
-    # print(products)
-    results = [product for page in pages for product in page]
-    print(results[0])
+    print(type(products[0]))
+    #results = [product]
+    # print(type(results[0]))
     input("CONTINUE")
     if order:
         if order == 1:
