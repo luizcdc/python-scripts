@@ -1,11 +1,15 @@
+import bs4
 from bs4 import BeautifulSoup
 from requests import get
 from time import sleep
 from pickle import load
 from urllib.parse import quote
 
+SKIP_PAGES = 1500  # 0 unless debugging
+
 
 def get_link(product):
+    print("GETTING A LINK")
     link = product.find(class_="item__info-title").get("href").strip()
     jm_loc = link.find('-_JM')
     if jm_loc == -1:
@@ -36,12 +40,12 @@ def get_all_products(pages):
             class_="item__info item--hide-right-col") for page in pages]
 
 
-def is_reputable(link, min_rep=3):
+def is_reputable(link, min_rep=3, aggressiveness=1):
     product_page = BeautifulSoup(get(link).text, "html.parser")
     thermometer = str(
         product_page.find(
             class_="card-section seller-thermometer"))
-    sleep(0.25)
+    sleep(0.5**aggressiveness)
     THERM_LEVELS = ("newbie", "red", "orange",
                     "yellow", "light_green", "green")
     if any(badrep in thermometer for badrep in (THERM_LEVELS[i] for i in range(min_rep))):
@@ -65,7 +69,8 @@ def print_cats():
 
 def get_cat(catid):
     father_num, child_num = map(int, catid.split('.'))
-    for father in CATS:
+    print(father_num, child_num)
+    for father_cat in CATS:
         if father_cat[0][0] == father_num:
             for child in father_cat[1]:
                 if child['number'] == child_num:
@@ -75,28 +80,27 @@ def get_cat(catid):
     return subdomain, suffix
 
 
-def get_search_pages(term, cat='0.0', price_min=0, price_max=2147483647, condition=0):
+def get_search_pages(term, cat='0.0', price_min=0, price_max=2147483647, condition=0, aggressiveness=1):
     CONDITIONS = ["", "_ITEM*CONDITION_2230284", "_ITEM*CONDITION_2230581"]
     CATS.insert(0, [[0, 'Todas as categorias'], [
-                {'subdomain': 'lista', 'suffix': '', 'number': '0', 'name': 'Todas'}]])
+                {'subdomain': 'lista', 'suffix': '', 'number': 0, 'name': 'Todas'}]])
     subdomain, suffix = get_cat(cat)
     index = 1
     pages = []
     while True:
         page = get(
             f"https://{subdomain}.mercadolivre.com.br/{suffix}{quote(term, safe='')}_Desde_{index}_PriceRange_{price_min}-{price_max}{CONDITIONS[condition]}")
-        index += 50
+        index += (SKIP_PAGES + 1) * 50
         if page.status_code == 404:
             break
         else:
             pages.append(page.text)
-        sleep(0.25)
+        sleep(0.5**aggressiveness)
+    print(len(pages))  # DEBUG
     return pages
 
 
-if __name__ == "__main__":
-    # TODO: input encapsulation
-    search_term = input("Digite os termos da pesquisa: ")  # "128gb"
+def get_parameters():
     price_min = int(input(
         "Digite como um número inteiro, sem outros símbolos, o preço mínimo para os resultados da pesquisa (Ex: '150' sem aspas para R$ 150,00): "))
     price_max = int(input(
@@ -105,27 +109,38 @@ if __name__ == "__main__":
         price_min, price_max = price_max, price_min
     condition = int(input(
         "Insira a condição do produto para os resultados da busca.\n(0 - misto | 1 - novo | 2 - usado): "))
-    order = int(input(
-        "Insira a ordenação desejada dos resultados.\n(0 - relevância | 1 - preço mínimo | 2 - preço máximo): "))
     print_cats()
     category = input(
-        "Insira a categoria de acordo com os código identificadores exibidos (Ex: Caso queira a categoria \"Adultos\", digite '31.1' sem aspas): ")
-    min_rep = input(
-        "Insira, de 0 a 6, qual é o nível mínimo de reputação desejada para os vendedores: ")
-    # TODO: option - aggressiveness (speed)
+        "Insira a categoria de acordo com os código identificadores exibidos\n(Ex: Caso queira a categoria \"Adultos\", digite '31.1' sem aspas): ")
 
-    pages = get_search_pages(search_term, category, price_min, price_max)
+    aggressiveness = (int(input(
+        "Insira, entre 1 a 3 o nível desejado de agressividade:\n(Cuidado! Em um nível de agressividade alto, você pode ser bloqueado!)")) % 4) - 1
+
+    return category, price_min, price_max, condition, aggressiveness
+
+
+if __name__ == "__main__":
+    search_term = input("Digite os termos da pesquisa: ")  # "128gb"
+    advanced_mode = input(
+        "Deseja utilizar as opções avançadas de pesquisa? Digite \"sim\" se positivo.")
+    if 'sim' in advanced_mode.lower():
+        args = get_parameters()
+        order = int(input(
+            "Insira a ordenação desejada dos resultados.\n(0 - relevância | 1 - preço mínimo | 2 - preço máximo): "))
+        min_rep = int(input(
+            "Insira, entre 0 a 6, qual é o nível mínimo de reputação desejada para os vendedores: "))
+    else:
+        args = ()
+        order = 1
+        min_rep = 3
+
+    pages = get_search_pages(search_term, *args)
 
     products = get_all_products(pages)
-
-    results = [
-        {
-            "link": get_link(product),
-            "title": get_title(product),
-            "price": get_price(product),
-            "no-interest": is_no_interest(product),
-            "reputable": is_reputable(
-                get_link(product), min_rep)} for page in pages for product in page]
+    # print(products)
+    results = [product for page in pages for product in page]
+    print(results[0])
+    input("CONTINUE")
     if order:
         if order == 1:
             results = sorted(results, key=lambda p: p["price"])
