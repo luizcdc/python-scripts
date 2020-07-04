@@ -9,7 +9,6 @@ SKIP_PAGES = 1500  # 0 unless debugging
 
 
 def get_link(product):
-    print("GETTING A LINK")
     link = product.find(class_="item__info-title").get("href").strip()
     jm_loc = link.find('-_JM')
     if jm_loc == -1:
@@ -33,16 +32,13 @@ def is_no_interest(product):
 
 
 def get_all_products(pages):
-    print(type(pages[0]))
     products = [
         BeautifulSoup(
             page,
             "html.parser").find_all(
             class_="item__info item--hide-right-col") for page in pages]
-    print(type(products[0][0]))
-    products = [product for page in pages for product in page]
-    print(type(products[0]))
-    return products
+    
+    return [product for page in products for product in page]
 
 
 def is_reputable(link, min_rep=3, aggressiveness=1):
@@ -137,20 +133,15 @@ if __name__ == "__main__":
         order = 1
         min_rep = 3
 
-    pages = get_search_pages(search_term, *args)
+    products = get_all_products(get_search_pages(search_term, *args))
 
-    products = get_all_products(pages)
-    print(type(products[0]))
-    #results = [product]
-    # print(type(results[0]))
-    input("CONTINUE")
     if order:
         if order == 1:
-            results = sorted(results, key=lambda p: p["price"])
+            products = sorted(products, key=lambda p: p["price"])
         else:
-            results = sorted(results, key=lambda p: -p["price"])
+            products = sorted(products, key=lambda p: -p["price"])
 
-    for product in results:
+    for product in products:
         if product["reputable"]:
             for k, v in product.items():
                 print(f"{k}: {v}")
