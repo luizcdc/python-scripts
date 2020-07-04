@@ -22,8 +22,9 @@ def get_title(product):
 
 def get_price(product):
     price = product.find(
-            class_="price__fraction").contents[0].strip()
+        class_="price__fraction").contents[0].strip()
     return float(price) * (1 if len(price) < 4 else 1000)
+
 
 def is_no_interest(product):
     return True if product.find(class_="stack_column_item installments highlighted").contents[0].get(
@@ -36,7 +37,8 @@ def get_all_products(pages, min_rep):
             page,
             "html.parser").find_all(
             class_="item__info item--hide-right-col") for page in pages]
-
+    # TODO: ADD PICTURE LINK TO PRODUCT DICTIONARY
+    # TODO: ADD FREE SHIPPING TO PRODUCT DICTIONARY
     return [{
             "link": get_link(product),
             "title": get_title(product),
@@ -46,7 +48,7 @@ def get_all_products(pages, min_rep):
                 get_link(product), min_rep)} for page in products for product in page]
 
 
-def is_reputable(link, min_rep=3, aggressiveness=1):
+def is_reputable(link, min_rep=3, aggressiveness=2):
     product_page = BeautifulSoup(get(link).text, "html.parser")
     thermometer = str(
         product_page.find(
@@ -85,7 +87,7 @@ def get_cat(catid):
     return subdomain, suffix
 
 
-def get_search_pages(term, cat='0.0', price_min=0, price_max=2147483647, condition=0, aggressiveness=1):
+def get_search_pages(term, cat='0.0', price_min=0, price_max=2147483647, condition=0, aggressiveness=2):
     CONDITIONS = ["", "_ITEM*CONDITION_2230284", "_ITEM*CONDITION_2230581"]
     CATS.insert(0, [[0, 'Todas as categorias'], [
                 {'subdomain': 'lista', 'suffix': '', 'number': 0, 'name': 'Todas'}]])
@@ -105,6 +107,7 @@ def get_search_pages(term, cat='0.0', price_min=0, price_max=2147483647, conditi
 
 
 def get_parameters():
+    # TODO: ADD EXCEPTION HANDLING
     price_min = int(input(
         "Digite como um número inteiro, sem outros símbolos, o preço mínimo para os resultados da pesquisa (Ex: '150' sem aspas para R$ 150,00): "))
     price_max = int(input(
@@ -123,8 +126,9 @@ def get_parameters():
     return category, price_min, price_max, condition, aggressiveness
 
 
+# TODO: FUNCTION TO RETURN THE RESULTS FROM ALL THE INPUTS, ENCAPSULATING EVERYTHING
 if __name__ == "__main__":
-    search_term = input("Digite os termos da pesquisa: ")  # "128gb"
+    search_term = input("Digite os termos da pesquisa: ")
     advanced_mode = input(
         "Deseja utilizar as opções avançadas de pesquisa? Digite \"sim\" se positivo.")
     if 'sim' in advanced_mode.lower():
@@ -137,7 +141,7 @@ if __name__ == "__main__":
         args = ()
         order = 1
         min_rep = 3
-
+    # TODO: FUNCTION TO RETURN THE RESULTS FROM ALL THE INPUTS, ENCAPSULATING EVERYTHING
     products = get_all_products(get_search_pages(search_term, *args), min_rep)
 
     if order:
@@ -151,3 +155,4 @@ if __name__ == "__main__":
             for k, v in product.items():
                 print(f"{k}: {v}")
             print()
+    # TODO: ASK IF USER INTENDS TO DO ANOTHER SEARCH
