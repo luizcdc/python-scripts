@@ -21,10 +21,9 @@ def get_title(product):
 
 
 def get_price(product):
-    return float(
-        product.find(
-            class_="price__fraction").contents[0].strip()) * 1000
-
+    price = product.find(
+            class_="price__fraction").contents[0].strip()
+    return float(price) * (1 if len(price) < 4 else 1000)
 
 def is_no_interest(product):
     return True if product.find(class_="stack_column_item installments highlighted").contents[0].get(
