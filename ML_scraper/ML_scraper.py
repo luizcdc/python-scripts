@@ -31,14 +31,20 @@ def is_no_interest(product):
         "class") == "item-installments free-interest" else False
 
 
-def get_all_products(pages):
+def get_all_products(pages, min_rep):
     products = [
         BeautifulSoup(
             page,
             "html.parser").find_all(
             class_="item__info item--hide-right-col") for page in pages]
-    
-    return [product for page in products for product in page]
+
+    return [{
+            "link": get_link(product),
+            "title": get_title(product),
+            "price": get_price(product),
+            "no-interest": is_no_interest(product),
+            "reputable": is_reputable(
+                get_link(product), min_rep)} for page in products for product in page]
 
 
 def is_reputable(link, min_rep=3, aggressiveness=1):
@@ -133,7 +139,7 @@ if __name__ == "__main__":
         order = 1
         min_rep = 3
 
-    products = get_all_products(get_search_pages(search_term, *args))
+    products = get_all_products(get_search_pages(search_term, *args), min_rep)
 
     if order:
         if order == 1:
