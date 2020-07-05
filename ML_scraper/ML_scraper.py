@@ -38,20 +38,24 @@ def is_no_interest(product):
         "class") == "item-installments free-interest" else False
 
 
+def has_free_shipping(product):
+    return "stack_column_item shipping highlighted" in str(product)
+
+
 def get_all_products(pages, min_rep):
     products = [
         BeautifulSoup(
             page,
             "html.parser").find_all(
             class_="results-item highlighted article stack product") for page in pages]
-    # TODO: ADD FREE SHIPPING TO PRODUCT DICTIONARY
+
     return [{
             "link": get_link(product),
             "title": get_title(product),
             "price": get_price(product),
             "no-interest": is_no_interest(product),
             "reputable": is_reputable(
-                get_link(product), min_rep), "picture": get_picture(product)} for page in products for product in page]
+                get_link(product), min_rep), "free-shipping": has_free_shipping(product), "picture": get_picture(product)} for page in products for product in page]
 
 
 def is_reputable(link, min_rep=3, aggressiveness=2):
