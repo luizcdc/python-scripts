@@ -42,6 +42,10 @@ def has_free_shipping(product):
     return "stack_column_item shipping highlighted" in str(product)
 
 
+def is_in_sale(product):
+    return "item__discount" in str(product)
+
+
 def get_all_products(pages, min_rep):
     products = [
         BeautifulSoup(
@@ -54,8 +58,11 @@ def get_all_products(pages, min_rep):
             "title": get_title(product),
             "price": get_price(product),
             "no-interest": is_no_interest(product),
+            "free-shipping": has_free_shipping(product),
+            "in-sale": is_in_sale(product),
             "reputable": is_reputable(
-                get_link(product), min_rep), "free-shipping": has_free_shipping(product), "picture": get_picture(product)} for page in products for product in page]
+                get_link(product), min_rep),
+            "picture": get_picture(product)} for page in products for product in page]
 
 
 def is_reputable(link, min_rep=3, aggressiveness=2):
