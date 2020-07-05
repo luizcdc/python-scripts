@@ -6,6 +6,8 @@ from pickle import load
 from urllib.parse import quote
 
 SKIP_PAGES = 0  # 0 unless debugging
+KEYS_PORTUGUESE = {'link': 'Link', 'title': 'Título', 'price': 'Preço', 'no-interest': 'Parcelamento sem Juros',
+                   'in-sale': 'Em Promoção', 'reputable': 'Boa reputação', 'picture': 'Link da imagem', 'free-shipping': 'Frete Grátis'}
 
 
 def get_link(product):
@@ -143,7 +145,12 @@ def get_parameters():
     return category, price_min, price_max, condition, aggressiveness
 
 
-# TODO: FUNCTION TO RETURN THE RESULTS FROM ALL THE INPUTS, ENCAPSULATING EVERYTHING
+def ML_query(search_term, order=1, min_rep=3, category='0.0', price_min=0, price_max=2147483647, condition=0, aggressiveness=2):
+    products = get_all_products(get_search_pages(search_term, category,
+                                                 price_min, price_max, condition, aggressiveness), min_rep)
+    return sorted(products, key=lambda p: p["price"], reverse=order == 2)
+
+
 if __name__ == "__main__":
     search_term = input("Digite os termos da pesquisa: ")
     advanced_mode = input(
@@ -158,18 +165,11 @@ if __name__ == "__main__":
         args = ()
         order = 1
         min_rep = 3
-    # TODO: FUNCTION TO RETURN THE RESULTS FROM ALL THE INPUTS, ENCAPSULATING EVERYTHING
-    products = get_all_products(get_search_pages(search_term, *args), min_rep)
-
-    if order:
-        if order == 1:
-            products = sorted(products, key=lambda p: p["price"])
-        else:
-            products = sorted(products, key=lambda p: -p["price"])
+    products = ML_query(search_term, order, min_rep, *args)
 
     for product in products:
         if product["reputable"]:
             for k, v in product.items():
-                print(f"{k}: {v}")
+                print(f"{KEYS_PORTUGUESE[k]}: {v}")
             print()
     # TODO: ASK IF USER INTENDS TO DO ANOTHER SEARCH
