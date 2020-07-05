@@ -5,7 +5,7 @@ from time import sleep
 from pickle import load
 from urllib.parse import quote
 
-SKIP_PAGES = 1500  # 0 unless debugging
+SKIP_PAGES = 0  # 0 unless debugging
 
 
 def get_link(product):
@@ -26,6 +26,13 @@ def get_price(product):
     return float(price) * (1 if len(price) < 4 else 1000)
 
 
+def get_picture(product):
+    picture = product.find(class_="item__image item__image--stack").find("img").get("src")
+    if not picture:
+        picture = product.find(class_="item__image item__image--stack").find("img")["data-src"]
+    return picture
+
+
 def is_no_interest(product):
     return True if product.find(class_="stack_column_item installments highlighted").contents[0].get(
         "class") == "item-installments free-interest" else False
@@ -36,8 +43,7 @@ def get_all_products(pages, min_rep):
         BeautifulSoup(
             page,
             "html.parser").find_all(
-            class_="item__info item--hide-right-col") for page in pages]
-    # TODO: ADD PICTURE LINK TO PRODUCT DICTIONARY
+            class_="results-item highlighted article stack product") for page in pages]
     # TODO: ADD FREE SHIPPING TO PRODUCT DICTIONARY
     return [{
             "link": get_link(product),
@@ -45,7 +51,7 @@ def get_all_products(pages, min_rep):
             "price": get_price(product),
             "no-interest": is_no_interest(product),
             "reputable": is_reputable(
-                get_link(product), min_rep)} for page in products for product in page]
+                get_link(product), min_rep), "picture": get_picture(product)} for page in products for product in page]
 
 
 def is_reputable(link, min_rep=3, aggressiveness=2):
@@ -121,7 +127,7 @@ def get_parameters():
         "Insira a categoria de acordo com os código identificadores exibidos\n(Ex: Caso queira a categoria \"Adultos\", digite '31.1' sem aspas): ")
 
     aggressiveness = (int(input(
-        "Insira, entre 1 a 3 o nível desejado de agressividade:\n(Cuidado! Em um nível de agressividade alto, você pode ser bloqueado!)")) % 4) - 1
+        "Insira, entre 1 a 3 o nível desejado de agressividade:\n(Cuidado! Em um nível de agressividade alto, você pode ser bloqueado! )")) % 4) - 1
 
     return category, price_min, price_max, condition, aggressiveness
 
@@ -130,7 +136,7 @@ def get_parameters():
 if __name__ == "__main__":
     search_term = input("Digite os termos da pesquisa: ")
     advanced_mode = input(
-        "Deseja utilizar as opções avançadas de pesquisa? Digite \"sim\" se positivo.")
+        "Deseja utilizar as opções avançadas de pesquisa? Digite \"sim\" se positivo: ")
     if 'sim' in advanced_mode.lower():
         args = get_parameters()
         order = int(input(
